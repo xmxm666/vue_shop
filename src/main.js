@@ -4,6 +4,9 @@ import Vue from 'vue'
 import app from './App'
 import router from './router'
 import store from './store'
+import {Toast} from 'mint-ui'
+
+Vue.component(Toast.name, Toast);
 
 /* eslint-disable no-new */
 new Vue({

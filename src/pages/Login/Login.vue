@@ -9,12 +9,12 @@
         </div>
       </div>
       <div class="login_content">
-        <form>
+        <form @submit="login">
           <div :class="{on:loginWay}">
             <section class="login_message">
               <input type="tel" maxlength="11" placeholder=" 手机号" v-model="phone">
-              <button :disabled="!rightPhone" class="get_verification" v-model="code" :class="{right_phone:rightPhone}">
-                获取验证码
+              <button :disabled="!rightPhone" class="get_verification" v-model="code" :class="{right_phone:rightPhone}" @click.prevent="sendMsg">
+                {{codeMsg}}
               </button>
             </section>
             <section class="login_verification">
@@ -48,7 +48,7 @@
         <a href="javascript:;" class="about_us">关于我们</a>
       </div>
       <span href="javascript:" class="go_back" @click="$router.back()">
-<i class="iconfont icon-jiantou2"></i>
+      <i class="iconfont icon-jiantou2"></i>
         </span>
     </div>
   </div>
@@ -56,19 +56,35 @@
 
 <script>
   import {checkPhone} from '../../utils/index'
+  import {Toast } from 'mint-ui'
     export default {
       data() {
         return {
           loginWay: true,
           phone: '',
           code:'',
+          codeMsg:"获取验证码"
         }
       },
       computed: {
         rightPhone() {
           const isRight = checkPhone(this.phone);
-          console.log(isRight);
           return isRight;
+        }
+      },
+      methods: {
+        sendMsg() {
+          const isRight = checkPhone(this.phone);
+          Toast({
+            message: '请输入正确的手机号！',
+            iconClass: 'icon icon-search'
+          });
+          if(!isRight) {
+
+          }
+        },
+        login() {
+
         }
       }
     }
