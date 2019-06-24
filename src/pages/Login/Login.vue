@@ -56,8 +56,10 @@
 
 <script>
   import {checkPhone} from '../../utils/index'
-  import {Toast } from 'mint-ui'
-    export default {
+  // import {Toast } from 'mint-ui'
+  import {errorToast, successToast} from "../../common/ToastUtil";
+
+  export default {
       data() {
         return {
           loginWay: true,
@@ -68,19 +70,39 @@
       },
       computed: {
         rightPhone() {
-          const isRight = checkPhone(this.phone);
-          return isRight;
+          return checkPhone(this.phone);
+        },
+        remainTime(value) {
+          const {codeMsg} = this;
+          if(value > 0) {
+            this.codeMsg = "已发送(" + value + ")s"
+          } else {
+            clearInterval(intervalId);
+            this.codeMsg = "获取验证码";
+          }
         }
       },
       methods: {
         sendMsg() {
           const isRight = checkPhone(this.phone);
-          Toast({
-            message: '请输入正确的手机号！',
-            iconClass: 'icon icon-search'
-          });
           if(!isRight) {
-
+            errorToast("请输入正确的手机号");
+          }
+          if(this.codeMsg !== '获取验证码') {
+            return;
+          }
+          //发送验证码
+          //sendMsg
+          const result = {code: 0, msg:'验证码发送成功！'};
+          if(result.code){
+            errorToast(result.msg);
+          } else {
+            successToast(result.msg);
+            this.remainTime = 60;
+            var intervalId = setInterval(() => {
+              this.remainTime  = this.remainTime - 1;
+              console.log(this.remainTime);
+            }, 1000);
           }
         },
         login() {
@@ -92,6 +114,7 @@
 
 <style lang="stylus" rel="stylesheet/stylus">
   @import "../../common/stylus/mixins.styl"
+
   .loginContainer
     width 100%
     height 100%

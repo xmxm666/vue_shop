@@ -5,6 +5,7 @@ import app from './App'
 import router from './router'
 import store from './store'
 import {Toast} from 'mint-ui'
+import "./common/css/iconfont.css"
 
 Vue.component(Toast.name, Toast);
 
