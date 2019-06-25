@@ -47,5 +47,6 @@ export default {
       const userInfo = result.data
       commit(RECEIVE_USER_INFO, {userInfo})
     }
+    return result;
   }
 }

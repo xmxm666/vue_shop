@@ -14,3 +14,7 @@ export const reqFoodCategorys = () => ajax(BASE_URL + '/index_category');
 export const reqShops = (latitude, longitude) => ajax(BASE_URL + '/shops', {latitude, longitude});
 //6、用户名密码登陆
 export const reqLoginPwd = (params) => ajax(BASE_URL + '/login_pwd',params, "POST");
+//手机号验证码登陆
+export const reqLoginSms = (params) => ajax(BASE_URL + '/login_sms',params, "POST");
+//用户登出logout
+export const reqLoginout = (params) => ajax(BASE_URL + '/logout',params, "POST");

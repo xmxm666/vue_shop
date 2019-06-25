@@ -4,10 +4,11 @@ import Vue from 'vue'
 import app from './App'
 import router from './router'
 import store from './store'
-import {Toast} from 'mint-ui'
+import {Toast, Switch} from 'mint-ui'
 import "./common/css/iconfont.css"
 
 Vue.component(Toast.name, Toast);
+Vue.component(Switch.name, Switch);
 
 /* eslint-disable no-new */
 new Vue({

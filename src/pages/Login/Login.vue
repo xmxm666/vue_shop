@@ -13,12 +13,12 @@
           <div :class="{on:loginWay}">
             <section class="login_message">
               <input type="tel" maxlength="11" placeholder=" 手机号" v-model="phone">
-              <button :disabled="!rightPhone" class="get_verification" v-model="code" :class="{right_phone:rightPhone}" @click.prevent="sendMsg">
+              <button :disabled="!rightPhone" class="get_verification"  :class="{right_phone:rightPhone}" @click.prevent="sendMsg">
                 {{codeMsg}}
               </button>
             </section>
             <section class="login_verification">
-              <input type="tel" maxlength="8" placeholder=" 验证码">
+              <input type="tel" maxlength="6" placeholder=" 验证码" v-model="code">
             </section>
             <section class="login_hint">
               温馨提示：未注册硅谷外卖帐号的手机号，登录时将自动注册，且代表已同意
@@ -28,18 +28,19 @@
           <div :class="{on:!loginWay}">
             <section>
               <section class="login_message">
-                <input type="tel" maxlength="11" placeholder=" 手机/ 邮箱/ 用户名">
+                <input type="tel" maxlength="11" placeholder=" 手机/ 邮箱/ 用户名" v-model="name">
               </section>
               <section class="login_verification">
-                <input type="tel" maxlength="8" placeholder=" 密码">
-                <div class="switch_button off">
-                  <div class="switch_circle"></div>
-                  <span class="switch_text">...</span>
+                <input type="tel" maxlength="8" placeholder=" 密码" v-model="pwd" v-if="switchValue">
+                <input type="password" maxlength="8" placeholder=" 密码" v-model="pwd" v-else>
+                <div class="switch_button" :class="switchValue?'on':'off'" @click="switchValue=!switchValue">
+                  <div class="switch_circle" :class="{right: switchValue}"></div>
+                  <span class="switch_text">{{switchValue ? 'abc' : '...'}}</span>
                 </div>
               </section>
               <section class="login_message">
-                <input type="text" maxlength="11" placeholder=" 验证码">
-                <img class="get_verification" :src="bathPath+'/captcha'" alt="captcha">
+                <input type="text" maxlength="11" placeholder=" 验证码" v-model="captcha">
+                <img class="get_verification" :src="bathPath+'/captcha'" alt="captcha" @click="getCaptcha" ref="captcha">
               </section>
             </section>
           </div>
@@ -58,6 +59,7 @@
   import {checkPhone} from '../../utils/index'
   import {errorToast, successToast} from "../../common/ToastUtil";
   import {bathPath} from "../../api/path";
+  import {reqLoginSms, reqLoginPwd} from '../../api/index'
 
   export default {
       data() {
@@ -67,16 +69,20 @@
           phone: '',
           code:'',
           codeMsg:"获取验证码",
-          remainTime: 0
+          remainTime: 0,
+          captcha: "",
+          name: "",
+          pwd: "",
+          switchValue: false
         }
       },
       computed: {
         rightPhone() {
           return checkPhone(this.phone);
-        }
-
+        },
       },
       methods: {
+        //发送验证码
         sendMsg() {
           const isRight = checkPhone(this.phone);
           if(!isRight) {
@@ -105,8 +111,46 @@
             }, 1000);
           }
         },
-        login() {
-
+        //获取验证码
+        getCaptcha() {
+          // 每次指定的src要不一样
+          this.$refs.captcha.src = 'http://localhost:4000/captcha?time='+Date.now();
+          this.captcha = '';
+        },
+        //登录
+        async login() {
+          let result;
+          if(this.loginWay) {
+            if(!this.rightPhone) {
+              errorToast("请输入正确的手机号!");
+              return;
+            }
+            if(!this.code) {
+              errorToast("请输入正确的验证码！");
+              return;
+            }
+            result = await reqLoginSms({phone:this.phone, code:this.code});
+            console.log(result);
+          } else {
+            const {name, pwd, captcha} = this;
+            if(!name) {
+              errorToast("请输入用户名！");
+              return;
+            }
+            if(!pwd) {
+              errorToast("请输入密码！");
+              return;
+            }
+            if(!captcha) {
+              errorToast("请输入验证码！");
+              return;
+            }
+            result = await reqLoginPwd({name, pwd, captcha});
+            console.log(result);
+          }
+          if(result.code === 1) {
+            errorToast(result.msg);
+          }
         }
       }
     }
