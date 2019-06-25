@@ -42,6 +42,7 @@
   import {mapState, mapActions} from 'vuex'
   import Swiper from 'swiper'
   import 'swiper/dist/css/swiper.css'
+  import {baseImgUrl} from '../../api/path'
 
   import HeaderTop from '../../components/HeaderTop/HeaderTop'
   import ShopList from '../../components/ShopList/ShopList'
@@ -49,8 +50,7 @@
   export default {
     data() {
       return {
-        baseImgUrl: 'https://fuss10.elemecdn.com',
-        baseShopImgUrl: 'http://cangtu.org:8001/img/'
+        baseImgUrl
       }
     },
     components: {

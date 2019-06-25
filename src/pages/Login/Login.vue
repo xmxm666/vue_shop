@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="login_content">
-        <form @submit="login">
+        <form @submit.prevent="login">
           <div :class="{on:loginWay}">
             <section class="login_message">
               <input type="tel" maxlength="11" placeholder=" 手机号" v-model="phone">
@@ -39,7 +39,7 @@
               </section>
               <section class="login_message">
                 <input type="text" maxlength="11" placeholder=" 验证码">
-                <!--<img class="get_verification" src="./images/captcha.svg" alt="captcha">-->
+                <img class="get_verification" :src="bathPath+'/captcha'" alt="captcha">
               </section>
             </section>
           </div>
@@ -56,31 +56,25 @@
 
 <script>
   import {checkPhone} from '../../utils/index'
-  // import {Toast } from 'mint-ui'
   import {errorToast, successToast} from "../../common/ToastUtil";
+  import {bathPath} from "../../api/path";
 
   export default {
       data() {
         return {
+          bathPath,
           loginWay: true,
           phone: '',
           code:'',
-          codeMsg:"获取验证码"
+          codeMsg:"获取验证码",
+          remainTime: 0
         }
       },
       computed: {
         rightPhone() {
           return checkPhone(this.phone);
-        },
-        remainTime(value) {
-          const {codeMsg} = this;
-          if(value > 0) {
-            this.codeMsg = "已发送(" + value + ")s"
-          } else {
-            clearInterval(intervalId);
-            this.codeMsg = "获取验证码";
-          }
         }
+
       },
       methods: {
         sendMsg() {
@@ -98,10 +92,16 @@
             errorToast(result.msg);
           } else {
             successToast(result.msg);
-            this.remainTime = 60;
+            let {remainTime} = this;
+            remainTime = 60;
             var intervalId = setInterval(() => {
-              this.remainTime  = this.remainTime - 1;
-              console.log(this.remainTime);
+              remainTime  = remainTime - 1;
+              this.codeMsg = "已发送(" + remainTime + ")s"
+              console.log(remainTime);
+              if(remainTime <= 0){
+                clearInterval(intervalId);
+                this.codeMsg = "获取验证码";
+              }
             }, 1000);
           }
         },

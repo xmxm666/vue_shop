@@ -4,10 +4,11 @@
 import {
   RECEIVE_SHOPS,
   RECEIVE_ADDRESS,
-  RECEIVE_CATEGORYS
+  RECEIVE_CATEGORYS,
+  RECEIVE_USER_INFO
 } from './mutation-types'
 
-import {reqAddress, reqFoodCategorys, reqShops} from '../api'
+import {reqAddress, reqFoodCategorys, reqLoginPwd, reqShops} from '../api'
 
 export default {
  async getAddress({commit,state}) {
@@ -35,6 +36,16 @@ export default {
     if (result.code === 0) {
       const shops = result.data
       commit(RECEIVE_SHOPS, {shops})
+    }
+  },
+
+  //6、用户名密码登陆
+  async loginPwd({commit, state}, params) {
+    const result = await reqLoginPwd(params)
+    // 提交一个mutation
+    if (result.code === 0) {
+      const userInfo = result.data
+      commit(RECEIVE_USER_INFO, {userInfo})
     }
   }
 }

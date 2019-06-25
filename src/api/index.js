@@ -12,3 +12,5 @@ export const reqAddress = (geohash) => ajax(`${BASE_URL}/position/${geohash}`);
 export const reqFoodCategorys = () => ajax(BASE_URL + '/index_category');
 //3、根据经纬度获取商铺列表
 export const reqShops = (latitude, longitude) => ajax(BASE_URL + '/shops', {latitude, longitude});
+//6、用户名密码登陆
+export const reqLoginPwd = (params) => ajax(BASE_URL + '/login_pwd',params, "POST");
