@@ -11,7 +11,7 @@ import Order from '../pages/Order/Order'
 import Profile from '../pages/Profile/Profile'
 
 import Login from '../pages/Login/Login'
-
+import Shop from '../pages/Shop/Shop'
 
 Vue.use(VueRouter);
 
@@ -39,6 +39,9 @@ export default new VueRouter({
     },{
       path: '/login',
       component: Login
+    },{
+      path: '/shop',
+      component: Shop
     }
   ]
 })
