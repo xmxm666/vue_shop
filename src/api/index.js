@@ -18,3 +18,20 @@ export const reqLoginPwd = (params) => ajax(BASE_URL + '/login_pwd',params, "POS
 export const reqLoginSms = (params) => ajax(BASE_URL + '/login_sms',params, "POST");
 //用户登出logout
 export const reqLoginout = (params) => ajax(BASE_URL + '/logout',params, "POST");
+
+/**
+ * 获取商家信息
+ */
+export const reqShopInfo = () => ajax('/info')
+
+/**
+ * 获取商家评价数组
+ */
+export const reqShopRatings = () => ajax('/ratings')
+
+/**
+ * 获取商家商品数组
+ */
+export const reqShopGoods = () => ajax('/goods')
+
+export const reqTest = () => ajax('/test')

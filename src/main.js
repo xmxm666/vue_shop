@@ -7,6 +7,8 @@ import store from './store'
 import {Toast, Switch} from 'mint-ui'
 import "./common/css/iconfont.css"
 
+import './mock/mockServer' // 加载mockServer即可
+
 Vue.component(Toast.name, Toast);
 Vue.component(Switch.name, Switch);
 
