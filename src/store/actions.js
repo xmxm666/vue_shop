@@ -5,10 +5,11 @@ import {
   RECEIVE_SHOPS,
   RECEIVE_ADDRESS,
   RECEIVE_CATEGORYS,
-  RECEIVE_USER_INFO
+  RECEIVE_USER_INFO,
+  RECEIVE_SHOP_INFO, RECEIVE_SHOP_GOODS
 } from './mutation-types'
 
-import {reqAddress, reqFoodCategorys, reqLoginPwd, reqShops} from '../api'
+import {reqAddress, reqFoodCategorys, reqLoginPwd, reqShops, reqShopInfo, reqShopGoods, reqShopRatings} from '../api'
 
 export default {
  async getAddress({commit,state}) {
@@ -48,5 +49,33 @@ export default {
       commit(RECEIVE_USER_INFO, {userInfo})
     }
     return result;
-  }
+  },
+
+  // 异步获取商家信息
+  async getShopInfo({commit, state}, params) {
+    const result = await reqShopInfo(params)
+    // 提交一个mutation
+    if (result.code === 0) {
+      const shopInfo = result.data
+      commit(RECEIVE_SHOP_INFO, {shopInfo})
+    }
+  },
+  // 异步获取商家商品
+  async getGoods({commit, state}, params) {
+    const result = await reqShopGoods(params)
+    // 提交一个mutation
+    if (result.code === 0) {
+      const goods = result.data
+      commit(RECEIVE_SHOP_GOODS, {goods})
+    }
+  },
+  // 异步获取商家评论
+  async getRatings({commit, state}, params) {
+    const result = await reqShopRatings(params)
+    // 提交一个mutation
+    if (result.code === 0) {
+      const ratings = result.data
+      commit(RECEIVE_SHOP_GOODS, {ratings})
+    }
+  },
 }

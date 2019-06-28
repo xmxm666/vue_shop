@@ -1,4 +1,4 @@
-g<template>
+<template>
     <div>
       ShopInfo
     </div>

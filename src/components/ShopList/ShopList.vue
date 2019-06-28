@@ -1,7 +1,8 @@
 <template>
   <div class="shop_container">
     <ul class="shop_list">
-      <li class="shop_li border-1px" v-for="shop in shops" :key="shop.id" @click="$router.push('/shop')">
+<!--      <li class="shop_li border-1px" v-for="shop in shops" :key="shop.id" @click="$router.push('/shop')">-->
+      <li class="shop_li border-1px" v-for="shop in shops" :key="shop.id" @click="$router.push({path: '/shop', query: {id: shop.id}})">
         <a>
           <div class="shop_left">
             <img class="shop_img" src="./images/shop/4.jpg">
