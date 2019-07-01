@@ -3,7 +3,7 @@
     <div class="goods">
       <div class="menu-wrapper" ref="menuWrapper">
         <ul>
-          <li class="menu-item current" v-for="(good, index) in goods" :key="index">
+          <li class="menu-item" v-for="(good, index) in goods" :key="index" :class="{current:clickNum==index}" @click="menuClick(index)">
             <span class="text bottom-border-1px">
             <img class="icon" v-if="good.icon" :src="good.icon">
             {{good.name}}
@@ -12,7 +12,7 @@
         </ul>
       </div>
       <div class="foods-wrapper" ref="foodsWrapper">
-        <ul>
+        <ul ref="foodsUl">
           <li class="food-list-hook" v-for="(good, index) in goods" :key="index">
             <h1 class="title">{{good.name}}</h1>
             <ul>
@@ -44,9 +44,69 @@
 
 <script>
   import {mapState} from 'vuex'
+  import BScroll from 'better-scroll'
   export default {
+    data() {
+      return {
+        clickNum: 0,
+        scrollYArr: [],
+        scrollY: 0,
+      }
+    },
     computed: {
       ...mapState(['goods'])
+    },
+    methods: {
+      menuClick(index){
+        this.clickNum=index;
+        this.scrollY = - this.scrollYArr[index];
+        this.foodsScroll.scrollTo(0, this.scrollY, 500);
+      }
+    },
+    watch: {
+      goods() {
+        this.$nextTick(()=>{
+          //初始化scroll
+          new BScroll(".menu-wrapper",{
+            click: true
+          });
+          this.foodsScroll = new BScroll(".foods-wrapper",{
+            probeType: 2,  // 因为惯性滑动不会触发
+            click: true
+          });
+
+          this.foodsScroll.on('scroll', ({x,y})=>{
+            this.scrollY = -y;
+          });
+          //左侧滚动结束后，右侧菜单栏选中
+          this.foodsScroll.on('scrollEnd', ({x,y})=>{
+            this.scrollY = -y;
+          });
+
+          //计算数组scrollY的值
+          const scrollYArr = [];
+          let top = 0;
+          scrollYArr.push(top);
+          const lis = this.$refs.foodsUl.getElementsByClassName('food-list-hook');
+          Array.prototype.slice.call(lis).forEach(arr =>{
+            top = top + arr.clientHeight;
+            scrollYArr.push(top);
+          })
+          this.scrollYArr = scrollYArr;
+        })
+      },
+
+      //左侧滚动结束后，右侧菜单栏选中
+      scrollY(){
+        const {scrollY, scrollYArr} = this;
+        for (let i = 0; i < scrollYArr.length; i++) {
+          console.log(scrollYArr[i], scrollY, scrollYArr[i+1]);
+          if(scrollY >= scrollYArr[i] && scrollY < scrollYArr[i+1]) {
+            this.clickNum = i;
+            break;
+          }
+        }
+      }
     }
   }
 </script>

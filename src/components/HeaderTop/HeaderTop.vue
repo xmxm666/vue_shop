@@ -4,7 +4,7 @@
       <i class="iconfont icon-sousuo"></i>
     </a>
     <a class="header_title">
-      <span class="header_title_text ellipsis" @click="test">{{address.name}}</span>
+      <span class="header_title_text ellipsis">{{address.name}}</span>
     </a>
     <a class="header_login">
       <span class="header_login_text" @click="$router.push('/login')">登录|注册</span>
@@ -14,16 +14,9 @@
 
 <script>
   import {mapState} from 'vuex'
-  import {reqTest} from '../../api/index'
   export default {
     computed: {
       ...mapState(['address']),
-    },
-    methods: {
-      test() {
-        const aa = reqTest();
-        console.log(aa);
-      }
     }
   }
 </script>
