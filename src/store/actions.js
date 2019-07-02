@@ -1,12 +1,17 @@
 /*
 通过mutation间接更新state的多个方法的对象
  */
+import Vue from 'vue'
 import {
   RECEIVE_SHOPS,
   RECEIVE_ADDRESS,
   RECEIVE_CATEGORYS,
   RECEIVE_USER_INFO,
-  RECEIVE_SHOP_INFO, RECEIVE_SHOP_GOODS
+  RECEIVE_SHOP_INFO,
+  RECEIVE_SHOP_GOODS,
+  RECEIVE_CART_FOOD,
+  RESET_CART_FOOD,
+  CLEAR_CART
 } from './mutation-types'
 
 import {reqAddress, reqFoodCategorys, reqLoginPwd, reqShops, reqShopInfo, reqShopGoods, reqShopRatings} from '../api'
@@ -78,4 +83,16 @@ export default {
       commit(RECEIVE_SHOP_GOODS, {ratings})
     }
   },
+  //添加商品到购物车
+  addFoodToCart({commit, state}, {isAdd, food}) {
+    if(isAdd) {
+      commit(RECEIVE_CART_FOOD, {food})
+    }else {
+      commit(RESET_CART_FOOD, {food});
+    }
+  },
+  clearCart({commit}) {
+    commit(CLEAR_CART)
+  }
+
 }

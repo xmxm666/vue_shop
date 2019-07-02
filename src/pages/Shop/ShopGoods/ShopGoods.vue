@@ -30,7 +30,7 @@
                     <span class="now">￥{{food.price}}</span>
                   </div>
                   <div class="cartcontrol-wrapper">
-                    CartControl
+                    <CartControl :food="food"/>
                   </div>
                 </div>
               </li>
@@ -39,10 +39,13 @@
         </ul>
       </div>
     </div>
+    <ShopCart/>
   </div>
 </template>
 
 <script>
+  import CartControl from '../../../components/CartControl/CartControl'
+  import ShopCart from '../../../components/ShopCart/ShopCart'
   import {mapState} from 'vuex'
   import BScroll from 'better-scroll'
   export default {
@@ -52,6 +55,9 @@
         scrollYArr: [],
         scrollY: 0,
       }
+    },
+    components: {
+      CartControl, ShopCart
     },
     computed: {
       ...mapState(['goods'])
@@ -83,7 +89,7 @@
             this.scrollY = -y;
           });
 
-          //计算数组scrollY的值
+          //计算数组scrollYArr的值
           const scrollYArr = [];
           let top = 0;
           scrollYArr.push(top);

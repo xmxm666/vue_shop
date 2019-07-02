@@ -1,4 +1,4 @@
-import {Toast } from 'mint-ui'
+import {Toast} from 'mint-ui'
 
 export const successToast = (msg) => {
   Toast({

@@ -4,12 +4,13 @@ import Vue from 'vue'
 import app from './App'
 import router from './router'
 import store from './store'
-import {Toast, Switch} from 'mint-ui'
+import {Toast, Switch, MessageBox} from 'mint-ui'
 import "./common/css/iconfont.css"
 
 import './mock/mockServer' // 加载mockServer即可
 
 Vue.component(Toast.name, Toast);
+Vue.component(MessageBox.name, MessageBox );
 Vue.component(Switch.name, Switch);
 
 /* eslint-disable no-new */
