@@ -44,6 +44,7 @@
   import {mapState, mapGetters} from 'vuex'
   import CartControl from '../../components/CartControl/CartControl'
   import {MessageBox} from 'mint-ui'
+  import BScroll from 'better-scroll'
   export default {
     data() {
       return {
@@ -78,6 +79,18 @@
           return
         }
         this.isShow = !this.isShow;
+        if(this.isShow) {
+          this.$nextTick(() => {
+            if (!this.cartScroll) {
+              this.cartScroll = new BScroll('.list-content', {
+                click: true
+              })
+            } else {
+              // console.log("refresh----------------");
+              this.cartScroll.refresh();
+            }
+          })
+        }
       },
       clearCart() {
         MessageBox.confirm('确定清除购物车！').then(action => {

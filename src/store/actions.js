@@ -11,7 +11,8 @@ import {
   RECEIVE_SHOP_GOODS,
   RECEIVE_CART_FOOD,
   RESET_CART_FOOD,
-  CLEAR_CART
+  CLEAR_CART,
+  RECEIVE_SHOP_RATINGS
 } from './mutation-types'
 
 import {reqAddress, reqFoodCategorys, reqLoginPwd, reqShops, reqShopInfo, reqShopGoods, reqShopRatings} from '../api'
@@ -80,7 +81,7 @@ export default {
     // 提交一个mutation
     if (result.code === 0) {
       const ratings = result.data
-      commit(RECEIVE_SHOP_GOODS, {ratings})
+      commit(RECEIVE_SHOP_RATINGS, {ratings})
     }
   },
   //添加商品到购物车

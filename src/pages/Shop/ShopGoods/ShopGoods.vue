@@ -106,7 +106,7 @@
       scrollY(){
         const {scrollY, scrollYArr} = this;
         for (let i = 0; i < scrollYArr.length; i++) {
-          console.log(scrollYArr[i], scrollY, scrollYArr[i+1]);
+          // console.log(scrollYArr[i], scrollY, scrollYArr[i+1]);
           if(scrollY >= scrollYArr[i] && scrollY < scrollYArr[i+1]) {
             this.clickNum = i;
             break;

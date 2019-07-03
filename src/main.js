@@ -8,6 +8,7 @@ import {Toast, Switch, MessageBox} from 'mint-ui'
 import "./common/css/iconfont.css"
 
 import './mock/mockServer' // 加载mockServer即可
+import './filter'
 
 Vue.component(Toast.name, Toast);
 Vue.component(MessageBox.name, MessageBox );
